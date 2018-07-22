@@ -1,12 +1,12 @@
 from bs4 import BeautifulSoup
-import urllib2
+import urllib.request
 
 titles = []
 dates = []
 scores = []
 
 url = "http://ca.ign.com/reviews/games?"
-f = urllib2.urlopen(url)
+f = urllib.request.urlopen(url)
 
 text = f.read()
 
@@ -25,7 +25,10 @@ dic = {}
 for ind, title in enumerate(titles):
     dic.setdefault('Game %d' % ind, {})['Title'] = title
     dic.setdefault('Game %d' % ind, {})['Date'] = dates[ind]
-    dic.setdefault('Game %d' % ind, {})[''] = scores[ind]
+    dic.setdefault('Game %d' % ind, {})['Score'] = scores[ind]
 
-for key, val in dic.iteritems():
-    print val
+for key, val in dic.items():
+    print(val)
+
+
+
