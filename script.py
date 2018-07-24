@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 import urllib.request
+import pandas as pd
+import re
 
 titles = []
 dates = []
@@ -16,19 +18,14 @@ soup = BeautifulSoup(text, 'html.parser')
 tags = soup.find_all('div', class_='clear itemList-item')
 
 for tag in tags:
-    titles.append(tag.h3.a.text)
-    dates.append(tag.find(lambda t: t.name == 'div' and t.get('class') == ['grid_3']).div.text)
-    scores.append(tag.find('span', class_="scoreBox-score").text)
+   t = tag.h3.a.text
+   match = re.search('\s*(.*)\s*', t)
+   titles.append(match.group(1))
+   dates.append(tag.find(lambda t: t.name == 'div' and t.get('class') == ['grid_3']).div.text)
+   scores.append(tag.find('span', class_="scoreBox-score").text)
 
-dic = {}
+dic = {'Title' : titles, 'Date' : dates, 'Score' : scores}
 
-for ind, title in enumerate(titles):
-    dic.setdefault('Game %d' % ind, {})['Title'] = title
-    dic.setdefault('Game %d' % ind, {})['Date'] = dates[ind]
-    dic.setdefault('Game %d' % ind, {})['Score'] = scores[ind]
+df = pd.DataFrame(data=dic)
 
-for key, val in dic.items():
-    print(val)
-
-
-
+print(df)
