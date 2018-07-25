@@ -6,6 +6,7 @@ import re
 titles = []
 dates = []
 scores = []
+platforms = []
 
 url = "http://ca.ign.com/reviews/games?"
 f = urllib.request.urlopen(url)
@@ -23,8 +24,9 @@ for tag in tags:
    titles.append(match.group(1))
    dates.append(tag.find(lambda t: t.name == 'div' and t.get('class') == ['grid_3']).div.text)
    scores.append(tag.find('span', class_="scoreBox-score").text)
+   platforms.append(tag.find('span', class_="item-platform").text)
 
-dic = {'Title' : titles, 'Date' : dates, 'Score' : scores}
+dic = {'Title' : titles, 'Date' : dates, 'Platform' : platforms, 'Score' : scores}
 
 df = pd.DataFrame(data=dic)
 
