@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import urllib.request
 import pandas as pd
 import re
+from enum import Enum
 
 def fetch_data(url, process_func):
 	titles = []
@@ -46,3 +47,7 @@ def process_metacritic(soup, titles, dates, scores, platforms):
 		platforms.append(match.group(2))
 		scores.append(tag.find('div', class_='product_item product_score').div.text)
 		dates.append(tag.find('div', class_='product_item product_date').text)
+		
+class FetchFunction(Enum):
+	IGN = process_ign
+	METACRITIC = process_metacritic
