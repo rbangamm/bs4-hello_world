@@ -27,3 +27,8 @@ def get_metacritic_tables():
 		}				
 
 	return jsonify(dic)
+
+@app.route('/')
+@app.route('/index')
+def index():
+	return render_template('index.html')
